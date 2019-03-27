@@ -14,6 +14,7 @@ public class Main {
         try {
             Bot myBot = new Bot();
             botsApi.registerBot(myBot);
+            //botsApi.registerBot(new CommandsHandler(myBot.getBotUsername()));
         } catch (TelegramApiException e) {
             e.printStackTrace();
         }
