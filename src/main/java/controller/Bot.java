@@ -1,4 +1,4 @@
-package Contoller;
+package controller;
 
 import org.telegram.telegrambots.bots.TelegramLongPollingBot;
 import org.telegram.telegrambots.meta.api.methods.send.SendMessage;
@@ -18,6 +18,7 @@ public class Bot extends TelegramLongPollingBot {
         SendMessage sendMessage = new SendMessage();
         Pattern pattern = Pattern.compile("([H|h]i|[П|п]ривіт)");
         Matcher matcher = pattern.matcher(update.getMessage().getText());
+
         if (matcher.find()) {
             sendMessage.setText("привіт, @" + update.getMessage().getFrom().getUserName());
             if (update.getMessage().getFrom().getUserName().equals("l_l_e_Tu"))
