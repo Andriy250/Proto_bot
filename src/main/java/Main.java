@@ -1,6 +1,6 @@
 import org.telegram.telegrambots.ApiContextInitializer;
 import org.telegram.telegrambots.meta.TelegramBotsApi;
-import Contoller.*;
+import controller.*;
 import org.telegram.telegrambots.meta.exceptions.TelegramApiException;
 
 public class Main {
