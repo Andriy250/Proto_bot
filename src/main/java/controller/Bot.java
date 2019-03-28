@@ -54,7 +54,7 @@ public class Bot extends TelegramLongPollingBot {
         if (matcher.find()) {
             sendMessage.setText("привіт, @" + update.getMessage().getFrom().getUserName());
             if (update.getMessage().getFrom().getUserName().equals("l_l_e_Tu"))
-                sendMessage.setText("Здраствуйте, отче");
+                sendMessage.setText("Здраствуй, батьку");
             if (update.getMessage().getFrom().getUserName().equals("olevolo"))
                 sendMessage.setText("прив... а це ти вова?");
             if (update.getMessage().getFrom().getUserName().equals("null"))
