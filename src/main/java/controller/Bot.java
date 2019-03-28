@@ -39,7 +39,7 @@ public class Bot extends TelegramLongPollingBot {
             } catch (IOException e) {
                 e.printStackTrace();
             }
-            sendMessage.setText(weatherJSON + " sdfdsf ");
+            sendMessage.setText(weatherJSON);
             sendMessage.setChatId(update.getMessage().getChatId());
             try {
                 execute(sendMessage);
