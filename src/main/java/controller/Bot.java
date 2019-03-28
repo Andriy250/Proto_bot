@@ -1,9 +1,14 @@
 package controller;
 
+import controller.commands.WeatherForecastCommand;
 import org.telegram.telegrambots.bots.TelegramLongPollingBot;
+import org.telegram.telegrambots.extensions.bots.commandbot.TelegramLongPollingCommandBot;
+import org.telegram.telegrambots.meta.TelegramBotsApi;
 import org.telegram.telegrambots.meta.api.methods.send.SendMessage;
+import org.telegram.telegrambots.meta.api.objects.Message;
 import org.telegram.telegrambots.meta.api.objects.Update;
 import org.telegram.telegrambots.meta.exceptions.TelegramApiException;
+import org.telegram.telegrambots.meta.exceptions.TelegramApiRequestException;
 
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -13,40 +18,22 @@ import java.net.URL;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-public class Bot extends TelegramLongPollingBot {
+public class Bot extends TelegramLongPollingCommandBot {
 
-    private final String username = "Methuselah";
+    
+    static private final String botname = "Methuselah";
     private final String token = "790292244:AAEoL22wZZ1AHn0XckumxtAnNoADp_XTEJQ";
 
+    public Bot() {
+        super(botname);
 
-    public void onUpdateReceived(Update update)  {
-        String message = update.getMessage().getText();
+        register(new WeatherForecastCommand());
+    }
+
+    @Override
+    public void processNonCommandUpdate(Update update) {
+        Message message = update.getMessage();
         SendMessage sendMessage = new SendMessage();
-
-        if (message.equals("weather")) {
-            URL url = null;
-            String weatherJSON = null;
-            try {
-                url = new URL("https://api.openweathermap.org/data/2.5/weather?q=lviv&APPID=4bb9969e1d07e6dd69a8824e9f15f358&units=metric");
-
-
-                BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(url.openStream()));
-                weatherJSON = bufferedReader.readLine();
-
-                bufferedReader.close();
-            } catch (MalformedURLException e) {
-                e.printStackTrace();
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
-            sendMessage.setText(weatherJSON);
-            sendMessage.setChatId(update.getMessage().getChatId());
-            try {
-                execute(sendMessage);
-            } catch (TelegramApiException e) {
-                e.printStackTrace();
-            }
-        }
 
         Pattern pattern = Pattern.compile("([H|h]i|[П|п]ривіт)");
         Matcher matcher = pattern.matcher(update.getMessage().getText());
@@ -66,11 +53,6 @@ public class Bot extends TelegramLongPollingBot {
                 e.printStackTrace();
             }
         }
-
-    }
-
-    public String getBotUsername() {
-        return username;
     }
 
     public String getBotToken() {

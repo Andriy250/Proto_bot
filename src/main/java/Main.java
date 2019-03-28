@@ -9,12 +9,11 @@ public class Main {
 
         ApiContextInitializer.init();
 
-        TelegramBotsApi botsApi = new TelegramBotsApi();
+            TelegramBotsApi botsApi = new TelegramBotsApi();
 
         try {
             Bot myBot = new Bot();
             botsApi.registerBot(myBot);
-            //botsApi.registerBot(new CommandsHandler(myBot.getBotUsername()));
         } catch (TelegramApiException e) {
             e.printStackTrace();
         }
