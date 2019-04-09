@@ -1,7 +1,10 @@
 package Model;
 
 import java.io.*;
+import java.net.URL;
+import java.nio.file.Path;
 import java.util.HashSet;
+import java.util.Locale;
 import java.util.Set;
 
 public class IdRepository {
@@ -15,6 +18,8 @@ public class IdRepository {
     }
 
     public void fullfillFromFile() throws IOException {
+        /*InputStream is = getClass().getResourceAsStream(path);
+        BufferedReader input = new BufferedReader(new InputStreamReader(is));*/
         BufferedReader input = new BufferedReader(new FileReader(path));
         String line = input.readLine();
         while(line != null) {
@@ -25,11 +30,17 @@ public class IdRepository {
     }
 
     public void saveIdToFile(long id) throws IOException {
-        idset.add(id);
 
-        FileWriter output = new FileWriter(path);
-        output.write(id +"\n");
-        output.close();
+        if (idset.add(id)) {
+
+            /*URL url = getClass().getResource(path);
+            File file = new File(url.getFile());*/
+            FileWriter output = new FileWriter(path);
+            Locale.setDefault(Locale.forLanguageTag("uk-UA"));
+            output.write(id + "\n");
+            output.close();
+
+        }
     }
 
     public String getPath() {

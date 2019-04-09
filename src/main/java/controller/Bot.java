@@ -36,7 +36,9 @@ public class Bot extends TelegramLongPollingCommandBot {
         register(new WeatherForecastCommand());
 
 
-        repo = new IdRepository("src/main/resources/ChatIds.txt");
+        //repo = new IdRepository("src/main/resources/ChatIds.txt");
+        repo = new IdRepository("ChatIds.txt");
+
 
         try {
             repo.fullfillFromFile();
@@ -50,23 +52,22 @@ public class Bot extends TelegramLongPollingCommandBot {
     public void processNonCommandUpdate(Update update) {
         Message message = update.getMessage();
         SendMessage sendMessage = new SendMessage();
-
         try {
-            repo.saveIdToFile(update.getMessage().getChatId());
+            repo.saveIdToFile(message.getChatId());
         } catch (IOException e) { e.printStackTrace(); }
 
         Pattern pattern = Pattern.compile("([H|h]i|[П|п]ривіт)");
         Matcher matcher = pattern.matcher(update.getMessage().getText());
 
         if (matcher.find()) {
-            sendMessage.setText("привіт, @" + update.getMessage().getFrom().getUserName());
-            if (update.getMessage().getFrom().getUserName().equals("l_l_e_Tu"))
+            sendMessage.setText("привіт, @" + message.getFrom().getUserName());
+            if (message.getFrom().getUserName().equals("l_l_e_Tu"))
                 sendMessage.setText("Здраствуй, батьку");
-            if (update.getMessage().getFrom().getUserName().equals("olevolo"))
+            if (message.getFrom().getUserName().equals("olevolo"))
                 sendMessage.setText("прив... а це ти вова?");
-            if (update.getMessage().getFrom().getUserName().equals("null"))
+            if (message.getFrom().getUserName().equals("null"))
                 sendMessage.setText("лол, зроби собі нарешті нік, користовуч @null");
-            sendMessage.setChatId(update.getMessage().getChatId());
+            sendMessage.setChatId(message.getChatId());
             try{
                 execute(sendMessage);
             } catch (TelegramApiException e) {
@@ -81,14 +82,18 @@ public class Bot extends TelegramLongPollingCommandBot {
 
         Thread sendMessThread = new Thread(()->{
             Random random = new Random();
-            LocalTime time = LocalTime.of(random.nextInt(24), random.nextInt(60));
+            int minutes = random.nextInt(60);
+            LocalTime time = LocalTime.of(LocalTime.now().getHour(), minutes);
+            System.out.println(LocalTime.now());
             while (true){
 
                 //if (currDate.getDayOfMonth() != LocalDate.now().getDayOfMonth())
-                if (currTime.getHour() != LocalTime.now().getHour())
-                    time = LocalTime.of(LocalTime.now().getHour(), random.nextInt(60));
-
-                if (time.equals(LocalTime.now())) {
+                if (currTime.getHour() != LocalTime.now().getHour()) {
+                    minutes = random.nextInt(60);
+                    time = LocalTime.of(LocalTime.now().getHour(), minutes);
+                }
+                System.out.println(time);
+                if ((time.getHour() == LocalTime.now().getHour()) &&(time.getMinute() == LocalTime.now().getMinute())) {
                     SendMessage mess = new SendMessage();
 
                     for (Long id : repo.getIdset()) {
