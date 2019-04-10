@@ -46,15 +46,17 @@ public class Bot extends TelegramLongPollingCommandBot {
 
         Pattern pattern = Pattern.compile("([H|h]i|[П|п]ривіт)");
         Matcher matcher = pattern.matcher(update.getMessage().getText());
-
+        System.out.println(message.getText() + " " + message.getFrom().getUserName());
         if (matcher.find()) {
             sendMessage.setText("привіт, @" + message.getFrom().getUserName());
-            if (message.getFrom().getUserName().equals("l_l_e_Tu"))
-                sendMessage.setText("Здраствуй, батьку");
-            if (message.getFrom().getUserName().equals("olevolo"))
-                sendMessage.setText("прив... а це ти вова?");
-            if (message.getFrom().getUserName().equals("null"))
+            if (message.getFrom().getUserName() == null)
                 sendMessage.setText("лол, зроби собі нарешті нік, користовуч @null");
+            else {
+                if (message.getFrom().getUserName().equals("l_l_e_Tu"))
+                    sendMessage.setText("Здраствуй, батьку");
+                if (message.getFrom().getUserName().equals("olevolo"))
+                    sendMessage.setText("прив... а це ти вова?");
+            }
             sendMessage.setChatId(message.getChatId());
             try{
                 execute(sendMessage);
