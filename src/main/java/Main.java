@@ -5,11 +5,11 @@ import org.telegram.telegrambots.meta.exceptions.TelegramApiException;
 
 public class Main {
 
-    static public void main(String ... args){
+    static public void main(String... args) {
 
         ApiContextInitializer.init();
 
-            TelegramBotsApi botsApi = new TelegramBotsApi();
+        TelegramBotsApi botsApi = new TelegramBotsApi();
 
         try {
             Bot myBot = new Bot();

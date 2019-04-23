@@ -1,6 +1,8 @@
 package controller;
 
 import Model.IdRepository;
+import Model.StatsRepository;
+import controller.commands.StatsCommand;
 import controller.commands.WeatherForecastCommand;
 import org.telegram.telegrambots.extensions.bots.commandbot.TelegramLongPollingCommandBot;
 import org.telegram.telegrambots.meta.api.methods.send.SendMessage;
@@ -15,17 +17,21 @@ import java.util.regex.Pattern;
 public class Bot extends TelegramLongPollingCommandBot {
 
     private IdRepository repo;
+    private StatsRepository statsRepository;
     static private final String botname = "Methuselah";
     private final String token = "790292244:AAEoL22wZZ1AHn0XckumxtAnNoADp_XTEJQ";
 
     public Bot() {
         super(botname);
 
-        register(new WeatherForecastCommand());
-
+        statsRepository = new StatsRepository();
 
         //repo = new IdRepository("src/main/resources/ChatIds.txt");
         repo = new IdRepository("ChatIds.txt");
+
+        register(new WeatherForecastCommand());
+        register(new StatsCommand(statsRepository));
+
 
 
         try {
@@ -39,6 +45,11 @@ public class Bot extends TelegramLongPollingCommandBot {
     @Override
     public void processNonCommandUpdate(Update update) {
         Message message = update.getMessage();
+
+        String user_nickname = message.getFrom().getUserName();
+        statsRepository.add(user_nickname);
+        System.out.println(statsRepository);
+
         SendMessage sendMessage = new SendMessage();
         try {
             repo.saveIdToFile(message.getChatId());
@@ -55,7 +66,7 @@ public class Bot extends TelegramLongPollingCommandBot {
                 if (message.getFrom().getUserName().equals("l_l_e_Tu"))
                     sendMessage.setText("Здраствуй, батьку");
                 if (message.getFrom().getUserName().equals("olevolo"))
-                    sendMessage.setText("прив... а це ти вова?");
+                    sendMessage.setText("Привіт, Бог Джави");
             }
             sendMessage.setChatId(message.getChatId());
             try{
@@ -71,6 +82,7 @@ public class Bot extends TelegramLongPollingCommandBot {
 
         regularMessageCotroller.start();
     }
+
 
     public String getBotToken() {
         return token;
