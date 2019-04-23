@@ -66,6 +66,9 @@ public class Bot extends TelegramLongPollingCommandBot {
         }
     }
 
+
+
+
     public void sendRegMessMessage(){
         RegularMessageCotroller regularMessageCotroller = new RegularMessageCotroller(this, repo);
 
