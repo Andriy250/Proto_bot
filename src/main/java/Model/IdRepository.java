@@ -37,7 +37,7 @@ public class IdRepository {
             File file = new File(url.getFile());*/
             FileWriter output = new FileWriter(path);
             Locale.setDefault(Locale.forLanguageTag("uk-UA"));
-            output.write(id + "\n");
+            output.append(id + "\n");
             output.close();
 
         }

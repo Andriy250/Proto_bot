@@ -44,7 +44,7 @@ public class RegularMessageCotroller {
 
                     for (Long id : repo.getIdset()) {
                         mess.setChatId(id);
-                        mess.setText("Не очікував? Я вас ще здивую. І до речі. ПОРОХ ПРЕЗІДЄНТ МІРА!!!УРА!!!!");
+                        mess.setText("Такі шо? Хохли, давайте гроши");
                         synchronized (this) {
                             try{
                                 bot.execute(mess);
