@@ -46,8 +46,9 @@ public class Bot extends TelegramLongPollingCommandBot {
     public void processNonCommandUpdate(Update update) {
         Message message = update.getMessage();
 
-        String user_nickname = message.getFrom().getUserName();
-        statsRepository.add(user_nickname);
+        String userFirstName = message.getFrom().getFirstName();
+        String userLastName = message.getFrom().getLastName();
+        statsRepository.add(userFirstName + " " + userLastName);
         System.out.println(statsRepository);
 
         SendMessage sendMessage = new SendMessage();

@@ -12,11 +12,12 @@ public class StatsRepository {
     private Map<String, Integer> users;
 
     public StatsRepository() {
-        users = new HashMap<>();
+        users = new LinkedHashMap<>();
     }
 
     public void add(String user) {
-        users.put(user, 0);
+        if (!users.containsKey(user))
+            users.put(user, 0);
     }
 
     public void increment(String user) {
@@ -33,7 +34,7 @@ public class StatsRepository {
                 .sorted(Map.Entry.comparingByValue())
                 .collect(
                         Collectors.toMap(e -> e.getKey(), e -> e.getValue(), (e1, e2) -> e2,
-                                HashMap::new));
+                                LinkedHashMap::new));
     }
 
     @Override
